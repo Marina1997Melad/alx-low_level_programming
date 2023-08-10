@@ -1,37 +1,43 @@
 #include "main.h"
 #include <stdlib.h>
 /**
- * *string_nconcat - concatenates two strings
- * @s1: destination string
- * @s2: source string
- * @n: number of characters to be copied
- * Return: copied
+ *string_nconcat - concatenate two strings using n amount of s2
+ * @s1: first string
+ * @s2: string to add to end of s1
+ * @n: amount of s2 to add to s1
+ * Return: pointer to new area in memory, NULL if it fails
  */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	unsigned int s1_len = 0, s2_len = 0, i;
-	char *s;
+	char *nstr, *empt;
+	unsigned int i, len, j;
+	unsigned int size;
 
+	len = 0;
+	empt = " ";
 	if (s1 == NULL)
-		s1 = " ";
+		s1 = empt;
 	if (s2 == NULL)
-		s2 = " ";
-	for (s1_len = 0; s1[s1_len] != '\0'; s1_len++)
-		;
-	for (s2_len = 0; s2[s2_len] != '\0'; s2_len++)
-		;
-	if (n >= s2_len)
-		n = s2_len;
-	s = malloc(sizeof(char) * n + s1_len + 1);
-	if (s == NULL)
-	{
+		s2 = empt;
+	while (s1[len] != '\0')
+		len++;
+	size = (len + n) * sizeof(*nstr);
+	nstr = malloc(size + 1);
+	if (nstr == NULL)
 		return (NULL);
+	i = 0;
+	while (i < size && s1[i] != '\0')
+	{
+		nstr[i] = s1[i];
+		i++;
 	}
-	for (i = 0; i < s1_len; i++)
-		s[i] = s1[i];
-	for (i = 0; i < n; i++)
-		s[i + s1_len] = s2[i];
-		
-	s[i + s1_len] = '\0';
-	return (s);
+	j = 0;
+	while (i < size && s2[j] != '\0')
+	{
+		nstr[i] = s2[j];
+		i++;
+		j++;
+	}
+	nstr[i] = '\0';
+	return (nstr);
 }
